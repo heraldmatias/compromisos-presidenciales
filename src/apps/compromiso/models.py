@@ -17,10 +17,10 @@ class TipoCompromiso(models.Model):
         db_table = 'compromiso_tipo'
         verbose_name = 'Tipo de compromiso'
         verbose_name_plural = 'Tipos de compromisos'
-        ordering = ('sector',)
+        ordering = ('tipo',)
 
     def __unicode__(self):
-        return u'%s' % self.sector
+        return u'%s' % self.tipo
 
 #RAZON SOCIAL
 class RazonSocial(models.Model):
@@ -106,7 +106,7 @@ class Remitente(models.Model):
     fono = models.CharField(verbose_name='Telefono', max_length=25,)
     email = models.EmailField(verbose_name='Email', max_length=135, unique=True)
     ubigeo = models.ForeignKey(Ubigeo)
-estado = models.IntegerField(verbose_name = 'Estado' , choices = ESTADO, default = 0)
+    estado = models.IntegerField(verbose_name = 'Estado' , choices = ESTADO, default = 0)
 
     class Meta:
         db_tablespace = 'pg_default'

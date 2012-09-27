@@ -13,13 +13,13 @@ from compromiso.models import DetalleCompromiso
 class AdminGenerico(admin.ModelAdmin):
     pass
 
-admin.site.register(TipoCompromiso, TipoCompromiso)
-admin.site.register(TipoCompromiso, RazonSocial)
-admin.site.register(TipoCompromiso, Sector)
-admin.site.register(TipoCompromiso, Origen)
-admin.site.register(TipoCompromiso, Categoria)
-admin.site.register(TipoCompromiso, Cargo)
-admin.site.register(TipoCompromiso, Remitente)
-admin.site.register(TipoCompromiso, Compromiso)
-admin.site.register(TipoCompromiso, DetalleCompromiso)
+admin.site.register(TipoCompromiso)
+admin.site.register(RazonSocial)
+admin.site.register(Sector)
+admin.site.register(Origen)
+admin.site.register(Categoria)
+admin.site.register(Cargo)
+admin.site.register(Remitente)
+admin.site.register(Compromiso)
+admin.site.register(DetalleCompromiso)
 

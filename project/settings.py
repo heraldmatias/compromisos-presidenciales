@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'django_tables2',
     'ubigeo',
     # apps
+    'compromiso',
 )
 
 GRAPPELLI_ADMIN_TITLE = 'Sitio Administrativo Compromisos Presidenciales - Perú'

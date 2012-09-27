@@ -4,7 +4,6 @@ from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
-from cms_inei.admin import cms
 admin.autodiscover()
 
 urlpatterns = patterns('',

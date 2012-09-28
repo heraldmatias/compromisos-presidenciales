@@ -3,8 +3,9 @@ from django.db import models
 from ubigeo.models import Ubigeo
 
 ESTADO = (
-    (0, 'ACTIVO',),
-    (1, 'INACTIVO',),
+    (0, 'PENDIENTE',),
+    (1, 'ATENDIDO PENDIENTE',),
+    (2, 'ATENDIDO CERRADO',),
 )
 
 class TipoCompromiso(models.Model):
@@ -134,8 +135,8 @@ class Compromiso(models.Model):
     class Meta:
         db_tablespace = 'pg_default'
         db_table = 'compromiso_compromiso'
-        verbose_name = 'Compromiso'
-        verbose_name_plural = 'Compromisos'
+        verbose_name = 'Compromiso Presidencial'
+        verbose_name_plural = 'Compromisos Presidenciales'
         ordering = ('expediente', )
 
     def __unicode__(self):

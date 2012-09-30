@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     # grapelli admin urls
     (r'^grappelli/', include('grappelli.urls')),    
     (r'^ubigeo/', include('ubigeo.urls')),
+    (r'^andina/', include('compromiso.urls')),
 )
 
 #if settings.DEBUG:

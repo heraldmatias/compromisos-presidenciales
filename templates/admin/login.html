@@ -1,0 +1,107 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load url from future %}
+{% load i18n %}
+
+<!-- BODYCLASS -->
+{% block bodyclass %}grp-login{% endblock %}
+{% block content-class %}{% endblock %}
+{% block content_title %}{% endblock %}
+
+<!-- EXTRAHEAD-->
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function($) {
+            $(window).load(function(){ $('#id_username').focus(); });
+        })(grp.jQuery);
+
+        jQuery(document).ready(function(){
+        jQuery('ul#fcabecera').innerfade({
+        speed: 1000,
+        timeout: 5000,
+        type: 'random',
+        containerheight: '200px'
+      });
+    });
+    </script>
+    <style type="text/css">
+        #slider{            
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            width: 1600px;
+            height: 840px; 
+            left:-20px;           
+        }
+        #slider #fcabecera{
+            margin: 0px 0px 0px 0px;   
+            top: 0px;                  
+        }
+        #slider #fcabecera ul li img{
+            width: 100%;
+            float: left;
+        }
+        #login{
+            z-index: 100; 
+            position: absolute;
+            left: 600px;
+            top: 50px;            
+            border-radius: 5px 5px 5px 5px;                       
+            background: rgba(235,235,230,0.6);
+            opacity: 50%;
+            padding: 20px 0px 0px 20px;
+        }
+    </style>
+{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+<div id="login" class="span3">
+            {% if error_message %}<p class="errornote grp-login-errors">{{ error_message }}</p>{% endif %}
+            <form action="{{ app_path }}" method="post" id="grp-login-form">{% csrf_token %}
+                
+                    <div class="row-fluid">
+                        
+                            {% if not form.this_is_the_login_form.errors %}{{ form.username.errors }}{% endif %}
+                            <div class="span5"><label for="id_username" class="required">{% trans 'Username:' %}</label></div>
+                            <div class="span6">
+                                <input style="width:100%;" type="text" name="username" id="id_username" />
+                            </div>
+                        
+                    </div>
+                    <div class="row-fluid">
+                        
+                            {% if not form.this_is_the_login_form.errors %}{{ form.password.errors }}{% endif %}
+                            <div class="span5"><label for="id_password" class="required">{% trans 'Password:' %}</label></div>
+                            <div class="span6">
+                                <input style="width:100%;" type="password" name="password" id="id_password" />
+                                <input type="hidden" name="this_is_the_login_form" value="1" />
+                                <input type="hidden" name="next" value="{{ next }}" />                                
+                            </div>
+                        
+                    </div>
+                
+                <div class="row-fluid">
+                    <ul>
+                        <li><input type="submit" class="grp-button" value="{% trans 'Log in' %}" /></li>
+                    </ul>
+                </div>
+            </form>        
+        </div>
+<div id="slider">            
+    <ul id="fcabecera">
+    <li><img src="{{ STATIC_URL }}img/slider/slide1.jpg" alt="" /></li>
+    <li><img src="{{ STATIC_URL }}img/slider/slide2.jpg" alt="" /></li>
+    <li><img src="{{ STATIC_URL }}img/slider/slide3.jpg" alt="" /></li>
+    <li><img src="{{ STATIC_URL }}img/slider/slide4.jpg" alt="" /></li>
+    <li><img src="{{ STATIC_URL }}img/slider/slide5.jpg" alt="" /></li>
+    <li><img src="{{ STATIC_URL }}img/slider/slide6.jpg" alt="" /></li>
+    <li><img src="{{ STATIC_URL }}img/slider/slide7.jpg" alt="" /></li>
+    </ul>
+</div>
+{% endblock %}

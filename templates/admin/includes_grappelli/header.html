@@ -1,0 +1,157 @@
+{% load i18n grp_tags %}
+{% if user.is_authenticated %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container">
+      <a href="/admin/" class="brand"><strong>Compromisos Presidenciales</strong></a> 
+            <div class="nav-collapse collapse">
+            <ul class="nav">              
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Administración
+                <b class="caret"></b></a>
+                    <ul class="dropdown-menu" >                         
+                        <li class="dropdown-submenu">
+                            <a href="/admin/compromiso/cargo/"><strong>Cargos</strong></a>
+                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/compromiso/cargo/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/compromiso/cargo/">Consultar</a></li>
+                                </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="/admin/compromiso/categoria/"><strong>Categorias</strong></a>
+                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/compromiso/categoria/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/compromiso/categoria/">Consultar</a></li>
+                                </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="/admin/compromiso/origen/"><strong>Origenes</strong></a>
+                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/compromiso/origen/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/compromiso/origen/">Consultar</a></li>
+                                </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="/admin/compromiso/razonsocial/"><strong>Razon Social varias</strong></a>
+                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/compromiso/razonsocial/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/compromiso/razonsocial/">Consultar</a></li>
+                                </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="/admin/compromiso/remitente/"><strong>Remitentes</strong></a>
+                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/compromiso/remitente/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/compromiso/remitente/">Consultar</a></li>
+                                </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="/admin/compromiso/sector/"><strong>Sectores</strong></a>
+                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/compromiso/sector/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/compromiso/sector/">Consultar</a></li>
+                                </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href="/admin/compromiso/tipocompromiso/"><strong>Tipos de compromisos</strong></a>
+                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/compromiso/tipocompromiso/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/compromiso/tipocompromiso/">Consultar</a></li>
+                                </ul>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="dropdown-submenu">
+                            <a href="/admin/auth/group/"><strong>Grupos</strong></a>                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/auth/group/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/auth/group/">Consultar</a></li>
+                                </ul>                            
+                        </li>                    
+                        <li class="dropdown-submenu">
+                            <a href="/admin/auth/user/"><strong>Usuarios</strong></a>                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/auth/user/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/auth/user/">Consultar</a></li>
+                                </ul>                            
+                        </li>
+                    
+                    </ul>
+                </li>
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Sites<b class="caret"></b></a>
+                    <ul class="dropdown-menu" >
+                    
+                        
+                        <li class="dropdown-submenu">
+                            <a href="/admin/sites/site/"><strong>Sitios</strong></a>
+                            
+                                <ul class="dropdown-menu">
+                                    <li class="grp-add-link"><a href="/admin/sites/site/add/">Añadir</a></li>
+                                    <li class="grp-change-link"><a href="/admin/sites/site/">Consultar</a></li>
+                                </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compromisos Presidenciales<b class="caret"></b></a>                
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-submenu">
+                            <a href="/admin/auth/group/"><strong>Compromiso</strong></a> 
+                            <ul class="dropdown-menu">
+                                <li class="grp-add-link"><a href="/admin/compromiso/compromiso/add/">Añadir</a></li>
+                                <li class="grp-change-link"><a href="/admin/compromiso/compromiso/">Consultar</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                
+            </li> 
+        </ul> 
+        
+    <ul class="nav pull-right">     
+            <!-- Username -->
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-important">admin<b class="caret"></b></span></a>
+                <ul class="dropdown-menu">
+                    <!-- Change Password -->
+                    
+                    
+                        <li><a href="/admin/password_change/">
+                    
+                    Cambiar contraseña</a></li>
+                    <!-- Logout -->
+                    
+                    
+                        <li><a href="/admin/logout/">
+                    
+                    Terminar sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    
+        </div></div></div></div>
+        {% else %}
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                      <a href="/admin/" class="brand"><strong>Compromisos Presidenciales</strong></a> 
+                </div>
+            </div>
+        </div>
+        {% endif %}
+<script type="text/javascript" charset="utf-8">
+    (function($) {
+        $(document).ready(function() {
+            $("#grp-navigation .grp-collapse").grp_collapsible();
+        });
+    })(grp.jQuery);
+</script>
+

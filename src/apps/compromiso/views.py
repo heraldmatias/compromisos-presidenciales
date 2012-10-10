@@ -16,17 +16,28 @@ def andina():
     url = 'http://www.andina.com.pe/Espanol/aspa2012/index.aspx'
     root = parse(url).getroot()
     news = []
+    return news
+    titu = u""
+    text = u""
     noticias = root.xpath("//table[@id='dlstNoticia']")[0]
-    for noticia in noticias:
+    noticia = None
+    for c in range(1,4):
+        noticia = noticias[c]
+        titu = u'%s' % noticia.xpath("./td[1]//h5")[0].text_content()
+        link = u'%s' % noticia.xpath("./td[1]//a/@href")[0].replace("../","http://www.andina.com.pe/Espanol/")
+        texta = u'%s' % noticia.xpath("./td[1]//h6")[0].text_content()
+        hora = u'%s' % noticia.xpath("./td[1]//h4")[0].text_content()
         news.append(dict(
-            titular = noticia.xpath("./td[1]//h5")[0].text_content().encode("utf-8"),
-            texto = noticia.xpath("./td[1]//h6")[0].text_content().encode("utf-8"),
+            titular = titu.encode('latin-1'),
+            texto = texta.encode('latin-1'),
+            link = link.encode('latin-1'),
+            hora = hora[-5:],
             ))
     return news
 
 def andina_news(request):
-    import json
-    data = json.dumps(andina(), indent=2)
+    import simplejson
+    data = simplejson.dumps(andina(), indent=2, ensure_ascii=True, encoding='utf-8')
     return HttpResponse(data,mimetype='application/json')
 
 def index(request):    

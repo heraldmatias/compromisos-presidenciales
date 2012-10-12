@@ -80,7 +80,7 @@ class AdminCompromiso(admin.ModelAdmin):
     list_display_links = ('expediente','codigo',)
     list_filter = ('tipo','origen','categoria','estado')
     search_fields = ['^expediente','^tipo']
-    radio_fields = {"estado" : admin.HORIZONTAL,}
+    #radio_fields = {"estado" : admin.HORIZONTAL,}
     list_per_page= 25
     list_max_show_all=50
     actions_on_top = True
@@ -94,7 +94,7 @@ class AdminCompromiso(admin.ModelAdmin):
             }
         ),
         (None, {
-                'fields' : ('origen','razon_social',('remitente','sector'),),
+                'fields' : (('origen','razon_social'),('remitente','sector'),),
             }
         ),
         (None, {

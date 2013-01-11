@@ -44,7 +44,8 @@ def presidencia_noticias():
     for noticia in noticias:        
         news.append(dict(
             titular = noticia.xpath("div/h4/a")[0].text_content(),
-            link = noticia.xpath("div/h4/a/@href")[0],
+            link = u'%s%s' %('http://presidencia.gob.pe/',
+                noticia.xpath("div/h4/a/@href")[0]),
             descripcion = noticia.xpath("div/p")[0].text_content(),
             ))    
     return news

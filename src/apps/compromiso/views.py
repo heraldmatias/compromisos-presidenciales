@@ -7,6 +7,7 @@ LATEST NEWS FROM ANDINA
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from lxml.html import parse
+from lxml import etree
 from django.http import HttpResponse
 from django.core import serializers
 from django.template import RequestContext
@@ -38,9 +39,7 @@ def andina():
 def presidencia_noticias():
     url = 'http://www.presidencia.gob.pe'
     root = parse(url).getroot()
-    news = []
-    titu = u""
-    text = u""
+    news = []    
     noticias = root.xpath("//div[@class='nsp_art']")    
     for noticia in noticias:        
         news.append(dict(
@@ -50,15 +49,45 @@ def presidencia_noticias():
             ))    
     return news
 
+def presidencia_discursos():
+    """
+    ?limitstart=5
+    Limita de 5 en 5 los discursos servira para que en el json se vayan recuperando
+    en base a esa cantidad.
+    """
+    from django.template.defaultfilters import slugify, truncatewords, join
+    url = 'http://www.presidencia.gob.pe/discursos-del-presidente/blog'
+    root = parse(url).getroot()
+    news = []    
+    discursos = root.xpath("//div[@class='entryContent entry']")
+    for discurso in discursos:
+        descripcion = truncatewords(join([p.text_content() 
+            for p in discurso.xpath(
+            "div[@class='entry-body']")[0].xpath(
+            "p[@style='text-align: justify;']")],''),30)
+        news.append(dict(
+            titular = discurso.xpath("h2")[0].text_content(),
+            link = u'%s%s' % ('http://presidencia.gob.pe/',
+                slugify(discurso.xpath("h2")[0].text_content())),
+            descripcion = descripcion,
+            ))    
+    return news
+
 def andina_news(request):    
     data = simplejson.dumps(andina(), indent=2, ensure_ascii=True, encoding='utf-8')
     data = 'callback('+data+');'
     return HttpResponse(data,mimetype='application/json')
 
-def presidencia_noticias_news(request):    
+def presidencia_noticias_news(request):
     data = simplejson.dumps(presidencia_noticias(),
         indent=2, ensure_ascii=True, encoding='utf-8')
-    data = 'callback('+data+');'
+    data = 'ver_noticias('+data+');'
+    return HttpResponse(data,mimetype='application/json')
+
+def presidencia_discursos_news(request):
+    data = simplejson.dumps(presidencia_discursos(),
+        indent=2, ensure_ascii=True, encoding='utf-8')
+    data = 'ver_discursos('+data+');'
     return HttpResponse(data,mimetype='application/json')
 
 def index(request):    

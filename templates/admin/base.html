@@ -4,9 +4,12 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
     <!-- STYLESHEETS -->
     {% block stylesheets %}
+        <link href="{{ STATIC_URL  }}css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="{{ STATIC_URL  }}css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
         <link href="{% static "grappelli/jquery/ui/css/custom-theme/jquery-ui-1.8.18.custom.css" %}" rel="stylesheet" type="text/css" media="screen" />
         <link href="{% static "grappelli/stylesheets/screen.css" %}" rel="stylesheet" type="text/css" media="screen" />
         <link href="{% static "grappelli/stylesheets/mueller/grid/output.css" %}" rel="stylesheet" type="text/css" media="screen" />
@@ -55,7 +58,7 @@
     <div id="grp-container">
 
         <!-- HEADER -->
-        <header id="grp-header" class="{% block header-class %}{% endblock %}">
+        
             {% if not is_popup %}
 
                 <!-- NAVIGATION -->                
@@ -80,7 +83,7 @@
                     </nav>
                 </div>
             {% endif %}
-        </header>
+        
 
         <!-- CONTENT -->
         <article id="grp-content" class="{% block content-class %}{% endblock %}">

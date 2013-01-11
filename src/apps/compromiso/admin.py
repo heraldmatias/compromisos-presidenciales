@@ -24,7 +24,8 @@ class AdminOrigen(admin.ModelAdmin):
     list_display_links = ('origen','codigo',)
     list_filter = ('origen','estado','ubigeo',)
     search_fields = ['^origen', ]
-    radio_fields = {"estado" : admin.HORIZONTAL,}
+    list_editable = ['estado',]
+    #radio_fields = {"estado" : admin.HORIZONTAL,}
     list_per_page= 25
     list_max_show_all=50
     actions_on_top = True

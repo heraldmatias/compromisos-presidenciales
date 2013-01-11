@@ -13,6 +13,7 @@ from django.core import serializers
 from django.template import RequestContext
 from django.utils.encoding import smart_unicode, force_unicode
 import simplejson
+from django.template.defaultfilters import slugify, truncatewords, join
 
 def andina():
     url = 'http://www.andina.com.pe/Espanol/aspa2012/index.aspx'
@@ -41,12 +42,35 @@ def presidencia_noticias():
     root = parse(url).getroot()
     news = []    
     noticias = root.xpath("//div[@class='nsp_art']")    
-    for noticia in noticias:        
+    for noticia in noticias:
         news.append(dict(
             titular = noticia.xpath("div/h4/a")[0].text_content(),
-            link = u'%s%s' %('http://presidencia.gob.pe/',
+            link = u'%s%s' %('http://presidencia.gob.pe',
                 noticia.xpath("div/h4/a/@href")[0]),
             descripcion = noticia.xpath("div/p")[0].text_content(),
+            ))
+    return news
+
+def presidencia_noticias_otro():
+    """
+    ?limitstart=5
+    Limita de 5 en 5 los discursos servira para que en el json se vayan recuperando
+    en base a esa cantidad.
+    """    
+    url = 'http://www.presidencia.gob.pe/ollanta/blog'
+    root = parse(url).getroot()
+    news = []    
+    discursos = root.xpath("//div[@class='entryContent entry']")
+    for discurso in discursos:
+        descripcion = truncatewords(join([p.text_content() 
+            for p in discurso.xpath(
+            "div[@class='entry-body']")[0].xpath(
+            "p[@style='text-align: justify;']")],''),30)
+        news.append(dict(
+            titular = discurso.xpath("h2")[0].text_content(),
+            link = u'%s%s' % ('http://presidencia.gob.pe/',
+                slugify(discurso.xpath("h2")[0].text_content())),
+            descripcion = descripcion,
             ))    
     return news
 
@@ -55,8 +79,7 @@ def presidencia_discursos():
     ?limitstart=5
     Limita de 5 en 5 los discursos servira para que en el json se vayan recuperando
     en base a esa cantidad.
-    """
-    from django.template.defaultfilters import slugify, truncatewords, join
+    """    
     url = 'http://www.presidencia.gob.pe/discursos-del-presidente/blog'
     root = parse(url).getroot()
     news = []    

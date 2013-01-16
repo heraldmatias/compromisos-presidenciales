@@ -37,7 +37,7 @@ def andina():
             ))
     return news
 
-def presidencia_noticias():
+def presidencia_noticias_otro():
     url = 'http://www.presidencia.gob.pe'
     root = parse(url).getroot()
     news = []    
@@ -51,7 +51,7 @@ def presidencia_noticias():
             ))
     return news
 
-def presidencia_noticias_otro():
+def presidencia_noticias():
     """
     ?limitstart=5
     Limita de 5 en 5 los discursos servira para que en el json se vayan recuperando
@@ -62,10 +62,10 @@ def presidencia_noticias_otro():
     news = []    
     discursos = root.xpath("//div[@class='entryContent entry']")
     for discurso in discursos:
-        descripcion = truncatewords(join([p.text_content() 
+        descripcion = join([etree.tostring(p)
             for p in discurso.xpath(
             "div[@class='entry-body']")[0].xpath(
-            "p[@style='text-align: justify;']")],''),30)
+            "p[@style='text-align: justify;']")],'')
         news.append(dict(
             titular = discurso.xpath("h2")[0].text_content(),
             link = u'%s%s' % ('http://presidencia.gob.pe/',
@@ -85,7 +85,7 @@ def presidencia_discursos():
     news = []    
     discursos = root.xpath("//div[@class='entryContent entry']")
     for discurso in discursos:
-        descripcion = truncatewords(join([p.text_content() 
+        descripcion = truncatewords(join(['<p>'+p.text_content()+'</p>'
             for p in discurso.xpath(
             "div[@class='entry-body']")[0].xpath(
             "p[@style='text-align: justify;']")],''),30)

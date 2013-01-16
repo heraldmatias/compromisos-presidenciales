@@ -62,7 +62,7 @@ def presidencia_noticias():
     news = []    
     discursos = root.xpath("//div[@class='entryContent entry']")
     for discurso in discursos:
-        descripcion = join([etree.tostring(p)
+        descripcion = join(['<p>'+p.text_content()+'</p>'
             for p in discurso.xpath(
             "div[@class='entry-body']")[0].xpath(
             "p[@style='text-align: justify;']")],'')

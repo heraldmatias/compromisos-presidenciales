@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from ubigeo.models import Ubigeo
+from datetime import datetime
 
 ESTADO = (
     ('Pendiente','Pendiente',),
@@ -206,7 +207,7 @@ class Seguimiento(models.Model):
     descripcion = models.TextField(verbose_name=u'Descripción')
 
     def __unicode__(self):
-        return u'%20s' % self.descripcion
+        return u'%s - %s' % (datetime.strftime(datetime.today(),'%d/%m/%y'),  self.descripcion)
 
 class Compromiso(models.Model):
     codigo = models.AutoField(verbose_name = 'Código', primary_key = True)

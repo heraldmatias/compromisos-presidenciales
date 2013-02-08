@@ -1,0 +1,26 @@
+$(function(){	
+	$('#id_motivo').change(function(){
+		if($(this).val()=='1'){
+			$('.grp-cell.l-2c-fluid.l-d-4.viaje').show();
+		}else{
+			$('.grp-cell.l-2c-fluid.l-d-4.viaje').hide();
+		}
+	});
+	$("form input:radio").click(function(){
+		if($(this).val()=='Institucional'){
+			$('.grp-cell.l-2c-fluid.l-d-4.institucion').show();
+		}else{
+			$('.grp-cell.l-2c-fluid.l-d-4.institucion').hide();
+		}		
+	});
+	if($('#id_formapedido_0').attr('checked')){
+		$('.grp-cell.l-2c-fluid.l-d-4.institucion').show();
+	}else{
+		$('.grp-cell.l-2c-fluid.l-d-4.institucion').hide();
+	}
+	if($('#id_motivo').val()=='1'){
+		$('.grp-cell.l-2c-fluid.l-d-4.viaje').show();
+	}else{
+		$('.grp-cell.l-2c-fluid.l-d-4.viaje').hide();
+	}
+});

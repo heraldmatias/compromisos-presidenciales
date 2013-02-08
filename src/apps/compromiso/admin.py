@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django import forms
-from compromiso.models import TipoCompromiso
-from compromiso.models import RazonSocial
-from compromiso.models import Sector
-from compromiso.models import Origen
-from compromiso.models import Categoria
-from compromiso.models import Cargo
-from compromiso.models import Remitente
+from compromiso.models import Seguimiento
+from compromiso.models import Motivo
+from compromiso.models import Viaje
+from compromiso.models import TipoPedido
+from compromiso.models import DetallePedido
+from compromiso.models import Autoridad
+from compromiso.models import Derivado
+from compromiso.models import Asignado
 from compromiso.models import Compromiso
+from compromiso.models import Institucion
 from compromiso.models import DetalleCompromiso
 from ubigeo.fields import UbigeoFormField
 from ubigeo import constant
@@ -17,71 +19,51 @@ class FormOrigen(forms.ModelForm):
     ubigeo = UbigeoFormField(ubigeo=constant.ONLY_PERU)
 
     class Meta:
-        model = Origen
+        model = Viaje
 
-class AdminOrigen(admin.ModelAdmin):
-    list_display = ('codigo','origen','ubigeo','estado',)
-    list_display_links = ('origen','codigo',)
-    list_filter = ('origen','estado','ubigeo',)
-    search_fields = ['^origen', ]
-    list_editable = ['estado',]
-    #radio_fields = {"estado" : admin.HORIZONTAL,}
+class AdminViaje(admin.ModelAdmin):
+    list_display = ('codigo','motivo','fecha','ubigeo',)
+    list_display_links = ('codigo','motivo',)
+    list_filter = ('motivo','ubigeo',)
+    search_fields = ['^motivo', ]    
     list_per_page= 25
     list_max_show_all=50
     actions_on_top = True
     actions_on_bottom = False
     fieldsets = (
         (None, {
-                'fields' : ('origen','ubigeo','estado',),
+                'fields' : ('motivo','fecha','ubigeo',),
             }
         ),
     )
     form = FormOrigen
 
-    class Media:
-        js = ('js/jquery.js',)
-
-class FormRemitente(forms.ModelForm):
-    ubigeo = UbigeoFormField(ubigeo=constant.ONLY_PERU)
-
-    class Meta:
-        model = Remitente
-
-class AdminRemitente(admin.ModelAdmin):
-    list_display = ('codigo','remitente','direccion','fono','email','ubigeo','estado',)
-    list_display_links = ('remitente','codigo',)
-    list_filter = ('remitente','estado','ubigeo',)
-    search_fields = ['^remitente', ]
-    radio_fields = {"estado" : admin.HORIZONTAL,}
-    list_per_page= 25
-    list_max_show_all=50
-    actions_on_top = True
-    actions_on_bottom = False
-    fieldsets = (
-        (None, {
-                'fields' : (('remitente','fono','email',),),
-            }
-        ),
-        (None, {
-                'fields' : ('ubigeo','direccion','estado',),
-            }
-        ),
-    )
-    form = FormRemitente
-
-    class Media:
-        js = ('js/jquery.js',)
+class AdminSeguimientoI(admin.StackedInline):
+    model = Seguimiento
+    extra = 0
 
 class AdminDetalle(admin.StackedInline):
     model = DetalleCompromiso
     extra = 0
+    fieldsets = (
+        (None, {
+                'fields' : (('nombre','estado',),
+                    ('tipopedido','detalle',),
+                    ('descripcion',),
+                    ('numero','expediente',),
+                    ('fecha_derivado','fecha_asignado',),
+                    ('derivado','asignado',),
+                    ('seguimientos',),),
+            }
+        ),              
+    )    
 
 class AdminCompromiso(admin.ModelAdmin):
-    list_display = ('codigo','expediente','sip','remitente','tipo','origen','sector','categoria','estado',)
-    list_display_links = ('expediente','codigo',)
-    list_filter = ('tipo','origen','categoria','estado')
-    search_fields = ['^expediente','^tipo']
-    #radio_fields = {"estado" : admin.HORIZONTAL,}
+    list_display = ('codigo','motivo','formapedido','persona','dni','direccion','telefono','autoridad',)
+    list_display_links = ('motivo','codigo',)
+    list_filter = ('motivo','codigo')
+    search_fields = ['^motivo',]
+    radio_fields = {"formapedido" : admin.HORIZONTAL,}
     list_per_page= 25
     list_max_show_all=50
     actions_on_top = True
@@ -91,115 +73,74 @@ class AdminCompromiso(admin.ModelAdmin):
     ]
     fieldsets = (
         (None, {
-                'fields' : (('tipo','categoria','estado'),),
+                'fields' : (('motivo','viaje'),('formapedido','institucion',),),
             }
         ),
         (None, {
-                'fields' : (('origen','razon_social'),('remitente','sector'),),
+                'fields' : (('persona','autoridad'),('dni','telefono'),('direccion',),),
             }
-        ),
-        (None, {
-                'fields' : (('expediente','sip',),'descripcion',),
-            }
-        ),
+        ),        
     )
 
     class Media:
         css = {
             "all": ('css/compromiso.css',)
-        }
+        }        
+        js = ('js/options.js',)
 
-class AdminTipoCompromiso(admin.ModelAdmin):
-    list_display = ('codigo','tipo','estado',)
-    list_display_links = ('tipo','codigo',)
-    list_filter = ('tipo','codigo','estado',)
-    search_fields = ['^tipo', ]
-    radio_fields = {"estado" : admin.HORIZONTAL,}
+class AdminMotivo(admin.ModelAdmin):
+    list_display = ('codigo','nombre',)
+    list_display_links = ('codigo',)
+    list_filter = ('nombre',)
+    search_fields = ['^nombre', ]    
     list_per_page= 25
     list_max_show_all=50
     actions_on_top = True
     actions_on_bottom = False
     fieldsets = (
         (None, {
-                'fields' : (('tipo','estado',),),
+                'fields' : (('nombre',),),
             }
         ),
     )
 
-class AdminRazonSocial(admin.ModelAdmin):
-    list_display = ('codigo','razon_social','estado',)
-    list_display_links = ('razon_social','codigo',)
-    list_filter = ('razon_social','codigo','estado',)
-    search_fields = ['^razon_social', ]
-    radio_fields = {"estado" : admin.HORIZONTAL,}
+class AdminDetallePedido(admin.ModelAdmin):
+    list_display = ('codigo','nombre','pedido',)
+    list_display_links = ('codigo',)
+    list_filter = ('nombre','pedido')
+    search_fields = ['^nombre', ] 
     list_per_page= 25
     list_max_show_all=50
     actions_on_top = True
     actions_on_bottom = False
     fieldsets = (
         (None, {
-                'fields' : (('razon_social','estado',),),
+                'fields' : (('pedido','nombre',),),
             }
         ),
     )
 
-class AdminSector(admin.ModelAdmin):
-    list_display = ('codigo','sector','estado',)
-    list_display_links = ('sector','codigo',)
-    list_filter = ('sector','codigo','estado',)
-    search_fields = ['^sector', ]
-    radio_fields = {"estado" : admin.HORIZONTAL,}
+class AdminSeguimiento(admin.ModelAdmin):
+    list_display = ('codigo','fecha','descripcion',)
+    list_display_links = ('codigo',)
+    list_filter = ('fecha',)
+    search_fields = ['^descripcion', ]    
     list_per_page= 25
     list_max_show_all=50
     actions_on_top = True
     actions_on_bottom = False
     fieldsets = (
         (None, {
-                'fields' : (('sector','estado',),),
+                'fields' : (('fecha',),('descripcion',),),
             }
         ),
     )
-
-class AdminCategoria(admin.ModelAdmin):
-    list_display = ('codigo','categoria','estado',)
-    list_display_links = ('categoria','codigo',)
-    list_filter = ('categoria','estado',)
-    search_fields = ['^categoria', ]
-    radio_fields = {"estado" : admin.HORIZONTAL,}
-    list_per_page= 25
-    list_max_show_all=50
-    actions_on_top = True
-    actions_on_bottom = False
-    fieldsets = (
-        (None, {
-                'fields' : (('categoria','estado',),),
-            }
-        ),
-    )
-
-class AdminCargo(admin.ModelAdmin):
-    list_display = ('codigo','cargo','estado',)
-    list_display_links = ('cargo','codigo',)
-    list_filter = ('cargo','estado',)
-    search_fields = ['^cargo', ]
-    radio_fields = {"estado" : admin.HORIZONTAL,}
-    list_per_page= 25
-    list_max_show_all=50
-    actions_on_top = True
-    actions_on_bottom = False
-    fieldsets = (
-        (None, {
-                'fields' : (('cargo','estado',),),
-            }
-        ),
-    )
-
-admin.site.register(TipoCompromiso, AdminTipoCompromiso)
-admin.site.register(RazonSocial, AdminRazonSocial)
-admin.site.register(Sector, AdminSector)
-admin.site.register(Origen, AdminOrigen)
-admin.site.register(Categoria, AdminCategoria)
-admin.site.register(Cargo, AdminCargo)
-admin.site.register(Remitente, AdminRemitente)
+admin.site.register(Viaje, AdminViaje)
+admin.site.register(TipoPedido, AdminMotivo)
+admin.site.register(Autoridad, AdminMotivo)
+admin.site.register(Derivado, AdminMotivo)
+admin.site.register(Asignado, AdminMotivo)
+admin.site.register(Institucion, AdminMotivo)
+admin.site.register(Seguimiento, AdminSeguimiento)
+admin.site.register(DetallePedido, AdminDetallePedido)
 admin.site.register(Compromiso, AdminCompromiso)
-

@@ -71,7 +71,7 @@ class AdminCompromiso(admin.ModelAdmin):
     list_display = ('codigo','motivo','formapedido','persona','dni','direccion','telefono','autoridad',)
     list_display_links = ('motivo','codigo',)
     list_filter = ('motivo','codigo')
-    search_fields = ['^motivo',]
+    search_fields = ['^persona',]
     radio_fields = {"formapedido" : admin.HORIZONTAL,}
     list_per_page= 25
     list_max_show_all=50

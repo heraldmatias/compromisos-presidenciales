@@ -56,7 +56,16 @@ class AdminDetalle(admin.StackedInline):
                     ('seguimientos',),),
             }
         ),              
-    )    
+    )
+    def queryset(self, request):
+        qs = super(AdminDetalle, self).queryset(request)
+        print qs
+        return qs
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        print db_field
+        #if db_field.name == "cars":
+        #    kwargs["queryset"] = Car.objects.filter(owner=request.user)
+        return super(AdminDetalle, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 class AdminCompromiso(admin.ModelAdmin):
     list_display = ('codigo','motivo','formapedido','persona','dni','direccion','telefono','autoridad',)

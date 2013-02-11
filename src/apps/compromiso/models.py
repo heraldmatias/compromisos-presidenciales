@@ -207,7 +207,10 @@ class Seguimiento(models.Model):
     descripcion = models.TextField(verbose_name=u'Descripción')
 
     def __unicode__(self):
-        return u'%s - %s' % (datetime.strftime(datetime.today(),'%d/%m/%y'),  self.descripcion)
+        return u'%s - %s' % (datetime.strftime(self.fecha,'%d/%m/%y'),  self.descripcion)
+    
+    class Meta:
+        ordering = ('fecha', )
 
 class Compromiso(models.Model):
     codigo = models.AutoField(verbose_name = 'Código', primary_key = True)

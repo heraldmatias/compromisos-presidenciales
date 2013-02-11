@@ -2,10 +2,6 @@
     display:none;
 }
 
-#id_detallecompromiso_set-0-seguimientos{
-	width: 100%;
-}
-
-.viaje{
-display: none;
+select[multiple] {
+   width: 100%;
 }

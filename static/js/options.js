@@ -23,4 +23,12 @@ $(function(){
 	}else{
 		$('.grp-cell.l-2c-fluid.l-d-4.viaje').hide();
 	}
+	//alert($('select[multiple="multiple"]').length);
+	$('select[multiple="multiple"]').each(function(k,v){
+        $(v).find('option:not(:selected)').remove();
+	});
+	$('select[multiple="multiple"]').change(function(){
+		$(this).find('option').attr('selected',true);
+	});
+	//$('select[multiple="multiple"]').attr('readonly','readonly');
 });
